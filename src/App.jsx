@@ -6,8 +6,15 @@ import Webcam from 'react-webcam'
 
 export default function App() {
 
-  const webcamRef  = useRef(null)
+  const webcamRef = useRef(null)
   const canvasRef = useRef(null)
+
+  const runBodysegment = async () => {
+    const net = await bodyPix.load()
+    console.log("Bodypix model loaded")
+  }
+
+  runBodysegment()
 
   return (
     <>
