@@ -4,10 +4,10 @@ import * as tf from '@tensorflow/tfjs'
 import * as bodyPix from '@tensorflow-models/body-pix'
 import Webcam from 'react-webcam'
 
-export default function App() {
 
-  const webcamRef = useRef(null)
-  const canvasRef = useRef(null)
+export default function App() {
+  const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
 
   const runBodysegment = async () => {
     const net = await bodyPix.load()
@@ -15,9 +15,8 @@ export default function App() {
 
     setInterval(() => {
       detect(net)
-    }, 10)
+    }, 100)
   }
-
 
   const detect = async (net) => {
     // Check data is available
@@ -43,12 +42,22 @@ export default function App() {
       console.log(person);
 
       // Draw detections
+      const coloredPartImage = bodyPix.toColoredPartMask(person);
+
+      bodyPix.drawMask(
+        canvasRef.current,
+        video,
+        coloredPartImage,
+        0.7,
+        0,
+        false
+      );
     }
+  };
 
 
-  }
+  runBodysegment();
 
-  runBodysegment()
 
   return (
     <>
@@ -63,7 +72,7 @@ export default function App() {
               left: 0,
               right: 0,
               textAlign: "center",
-              zindex: 9,
+              zIndex: 8,
               width: 640,
               height: 480,
             }}
@@ -78,13 +87,15 @@ export default function App() {
               left: 0,
               right: 0,
               textAlign: "center",
-              zindex: 9,
+              zIndex: 9,
               width: 640,
               height: 480,
             }}
           />
+
+
         </header>
       </div>
     </>
-  )
+  );
 }
